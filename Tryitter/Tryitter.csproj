@@ -9,9 +9,35 @@
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Microsoft.AspNetCore.Mvc.Versioning" />
+    <None Remove="Models\" />
+    <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Microsoft.EntityFrameworkCore.Design" />
+    <None Remove="Models\Enums\" />
+    <None Remove="Controllers\Students\" />
+    <None Remove="Controllers\Students\V1\" />
+    <None Remove="Repository\Interfaces\" />
+    <None Remove="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" />
+    <None Remove="Repository\Mappings\" />
+    <None Remove="Data\Repository\" />
+    <None Remove="Data\Repository\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Models\Enums\" />
+    <Folder Include="Controllers\Students\" />
+    <Folder Include="Controllers\Students\V1\" />
+    <Folder Include="Data\Mappings\" />
+    <Folder Include="Data\Repository\" />
+    <Folder Include="Data\Repository\Interfaces\" />
   </ItemGroup>
 </Project>
