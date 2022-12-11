@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Tryitter.Models;
+using Tryitter.Models.DTOs.PostDTO;
 
 namespace Tryitter.Data.Repository.Interfaces
 {
@@ -8,8 +8,8 @@ namespace Tryitter.Data.Repository.Interfaces
     {
         IList<PostDTO> GetAll();
         PostDTO GetById(Guid id);
-        PostDTO Create(PostCreate post);
-        PostDTO Update(PostCreate post, Guid id);
-        OkObjectResult Remove(Guid id);
+        PostDTOStudent Create(PostDTOCreate post);
+        PostDTOStudent Update(PostDTOUpdate post, Guid id);
+        void Remove(Guid id);
     }
 }

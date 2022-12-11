@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tryitter.Data.Repository.Interfaces;
 using Tryitter.Models;
+using Tryitter.Models.DTOs.PostDTO;
 using Tryitter.Models.DTOs.StudentDTO;
 
 namespace Tryitter.Data
@@ -112,6 +113,5 @@ namespace Tryitter.Data
                 _context.SaveChanges();
             }
         }
-
     }
 }

@@ -32,6 +32,7 @@
     <None Remove="Data\Repository\Interfaces\" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
     <None Remove="Models\DTOs\" />
+    <None Remove="Models\DTOs\PostDTO\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -42,5 +43,6 @@
     <Folder Include="Data\Repository\" />
     <Folder Include="Data\Repository\Interfaces\" />
     <Folder Include="Models\DTOs\" />
+    <Folder Include="Models\DTOs\PostDTO\" />
   </ItemGroup>
 </Project>

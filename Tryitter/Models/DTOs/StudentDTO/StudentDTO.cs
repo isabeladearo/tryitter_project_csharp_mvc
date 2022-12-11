@@ -10,7 +10,7 @@ namespace Tryitter.Models.DTOs.StudentDTO
         public string Email { get; set; }
         public Module Module { get; set; }
         public bool Status { get; set; }
-        public IList<PostDTO> Posts { get; set; }
+        public IList<PostDTO.PostDTO> Posts { get; set; }
     }
 }
 

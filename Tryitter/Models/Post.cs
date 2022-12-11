@@ -18,21 +18,4 @@ namespace Tryitter.Models
         [ForeignKey("StudentId")]
         public Student Student { get; set; }
     }
-
-    public class PostDTO
-    {
-        public Guid PostId { get; set; }
-        public string Title { get; set; }
-        public string Body { get; set; }
-        public string Image { get; set; }
-    }
-
-    public class PostCreate
-    {
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Body { get; set; }
-        public string Image { get; set; }
-        public Guid StudentId { get; set; }
-    }
 }

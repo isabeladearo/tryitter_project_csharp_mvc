@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Tryitter.Models;
 using Tryitter.Data.Repository.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Tryitter.Models.DTOs.PostDTO;
 
 namespace Tryitter.Controllers.Students.V1
 {
@@ -22,7 +20,7 @@ namespace Tryitter.Controllers.Students.V1
         [HttpGet]
         public IActionResult GetAll()
         {
-            var posts = _repository.GetAll().ToList();
+            var posts = _repository.GetAll();
             return Ok(posts);
         }
 
@@ -34,14 +32,14 @@ namespace Tryitter.Controllers.Students.V1
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] PostCreate post)
+        public IActionResult Create([FromBody] PostDTOCreate post)
         {
             var postCreated = _repository.Create(post);
-            return Created($"v1/posts/{post.Id}", postCreated);
+            return Created($"v1/posts/{postCreated.PostId}", postCreated);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update([FromBody] PostCreate post, [FromRoute] string id)
+        public IActionResult Update([FromBody] PostDTOUpdate post, [FromRoute] string id)
         {
             var postUpdated = _repository.Update(post, new Guid(id));
             return Ok(postUpdated);
