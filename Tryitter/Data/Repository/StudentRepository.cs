@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Tryitter.Models;
 using Tryitter.Data.Repository.Interfaces;
+using Tryitter.Models;
+using Tryitter.Models.DTOs.StudentDTO;
 
 namespace Tryitter.Data
 {
@@ -18,46 +19,99 @@ namespace Tryitter.Data
                 .Students
                 .AsNoTracking()
                 .Include(x => x.Posts)
-                .Select(a => new StudentDTO
+                .Select(s => new StudentDTO
                 {
-                    StudentId = a.Id,
-                    Name = a.Name,
-                    Email = a.Email,
-                    Module = a.Module,
-                    Status = a.Status,
-                    Posts = a.Posts.Select(b => new PostDTO
+                    StudentId = s.Id,
+                    Name = s.Name,
+                    Email = s.Email,
+                    Module = s.Module,
+                    Status = s.Status,
+                    Posts = s.Posts.Select(p => new PostDTO
                     {
-                        PostId = b.Id,
-                        Title = b.Title,
-                        Body = b.Body,
-                        Image = b.Image,
+                        PostId = p.Id,
+                        Title = p.Title,
+                        Body = p.Body,
+                        Image = p.Image,
                     }).ToList()
-
                 })
                 .ToList();
+
             return students;
         }
 
-        //public StudentDTO GetById(Guid id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public StudentDTO GetById(Guid id)
+        {
+            var studentFound = _context
+                .Students
+                .AsNoTracking()
+                .Include(s => s.Posts)
+                .Select(s => new StudentDTO
+                {
+                    StudentId = s.Id,
+                    Name = s.Name,
+                    Email = s.Email,
+                    Module = s.Module,
+                    Status = s.Status,
+                    Posts = s.Posts.Select(p => new PostDTO
+                    {
+                        PostId = p.Id,
+                        Title = p.Title,
+                        Body = p.Body,
+                        Image = p.Image,
+                    }).ToList()
+                })
+                .FirstOrDefault(s => s.StudentId == id);
 
-        //public StudentDTO Create(StudentCreate student)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            return studentFound;
+        }
 
-        //public StudentDTO Update(StudentCreate student, Guid id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public StudentDTOName Create(StudentDTOCreate student)
+        {
+            var studentInstance = new Student
+            {
+                Id = new Guid(),
+                Name = student.Name,
+                Email = student.Email,
+                PasswordHash = student.Password,
+                Module = student.Module,
+                Status = true,
+            };
 
-        //public OkObjectResult Remove(Guid id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            _context.Students.Add(studentInstance);
+            _context.SaveChanges();
+
+            return new StudentDTOName { StudentId = studentInstance.Id, Name = studentInstance.Name };
+        }
+
+        public StudentDTOName Update(StudentDTOUpdate student, Guid id)
+        {
+            var studentFound = _context.Students.FirstOrDefault(s => s.Id == id);
+
+            if (studentFound != null)
+            {
+                studentFound.Name = student.Name;
+                studentFound.Email = student.Email;
+                studentFound.PasswordHash = student.Password;
+                studentFound.Module = student.Module;
+                studentFound.Status = student.Status;
+
+                _context.Students.Update(studentFound);
+                _context.SaveChanges();
+            }
+
+            return new StudentDTOName { StudentId = studentFound.Id, Name = studentFound.Name };
+        }
+
+        public void Remove(Guid id)
+        {
+            var studentFound = _context.Students.FirstOrDefault(s => s.Id == id);
+
+            if (studentFound != null)
+            {
+                _context.Students.Remove(studentFound);
+                _context.SaveChanges();
+            }
+        }
 
     }
 }
-

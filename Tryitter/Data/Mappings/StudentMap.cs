@@ -13,28 +13,17 @@ namespace Tryitter.Data.Mappings
 
             builder.HasKey(s => s.Id);
 
-            builder.Property(s => s.Id)
-                .IsRequired()
-                .ValueGeneratedNever()
-                .UseIdentityColumn();
+            builder.Property(s => s.Id);
 
-            builder.Property(s => s.Name)
-                .IsRequired()
-                .HasMaxLength(80);
+            builder.Property(s => s.Name).HasMaxLength(80);
 
-            builder.Property(s => s.Email)
-                .IsRequired()
-                .HasMaxLength(160);
+            builder.Property(s => s.Email).HasMaxLength(160);
 
-            builder.Property(s => s.PasswordHash)
-                .IsRequired()
-                .HasMaxLength(255);
+            builder.Property(s => s.PasswordHash).HasMaxLength(255);
 
-            builder.Property(s => s.Module)
-                .IsRequired();
+            builder.Property(s => s.Module);
 
-            builder.Property(s => s.Status)
-                .IsRequired();
+            builder.Property(s => s.Status);
         }
     }
 }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
@@ -30,6 +30,8 @@
     <None Remove="Repository\Mappings\" />
     <None Remove="Data\Repository\" />
     <None Remove="Data\Repository\Interfaces\" />
+    <None Remove="Microsoft.EntityFrameworkCore.Tools" />
+    <None Remove="Models\DTOs\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -39,5 +41,6 @@
     <Folder Include="Data\Mappings\" />
     <Folder Include="Data\Repository\" />
     <Folder Include="Data\Repository\Interfaces\" />
+    <Folder Include="Models\DTOs\" />
   </ItemGroup>
 </Project>
