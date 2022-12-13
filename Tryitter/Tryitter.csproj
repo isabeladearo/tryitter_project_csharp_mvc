@@ -15,6 +15,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,8 +24,6 @@
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="Models\Enums\" />
-    <None Remove="Controllers\Students\" />
-    <None Remove="Controllers\Students\V1\" />
     <None Remove="Repository\Interfaces\" />
     <None Remove="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" />
     <None Remove="Repository\Mappings\" />
@@ -33,16 +32,23 @@
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
     <None Remove="Models\DTOs\" />
     <None Remove="Models\DTOs\PostDTO\" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Services\" />
+    <None Remove="Services\Interfaces\" />
+    <None Remove="Controllers\V1\" />
+    <None Remove="Microsoft.IdentityModel" />
+    <None Remove="SecureIdentity" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Models\Enums\" />
-    <Folder Include="Controllers\Students\" />
-    <Folder Include="Controllers\Students\V1\" />
     <Folder Include="Data\Mappings\" />
     <Folder Include="Data\Repository\" />
     <Folder Include="Data\Repository\Interfaces\" />
     <Folder Include="Models\DTOs\" />
     <Folder Include="Models\DTOs\PostDTO\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Controllers\V1\" />
   </ItemGroup>
 </Project>

@@ -35,7 +35,7 @@ namespace Tryitter.Controllers.Students.V1
         public IActionResult Create([FromBody] StudentDTOCreate student)
         {
             var studentCreated = _repository.Create(student);
-            return Created($"v1/students/{studentCreated.StudentId}", studentCreated);
+            return Created($"api/v1/students/{studentCreated.StudentId}", studentCreated);
         }
 
         [HttpPut("{id}")]
@@ -50,6 +50,19 @@ namespace Tryitter.Controllers.Students.V1
         {
             _repository.Remove(new Guid(id));
             return Ok(new { message = "Student removed with success." });
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] StudentDTOLogin student)
+        {
+            var token = _repository.Login(student);
+
+            if (token == null)
+            {
+                return BadRequest("Email ou senha inválidos");
+            }
+
+            return Ok(new { message = token });
         }
     }
 }

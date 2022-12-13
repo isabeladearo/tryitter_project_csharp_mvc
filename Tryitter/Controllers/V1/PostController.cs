@@ -35,7 +35,7 @@ namespace Tryitter.Controllers.Students.V1
         public IActionResult Create([FromBody] PostDTOCreate post)
         {
             var postCreated = _repository.Create(post);
-            return Created($"v1/posts/{postCreated.PostId}", postCreated);
+            return Created($"api/v1/posts/{postCreated.PostId}", postCreated);
         }
 
         [HttpPut("{id}")]

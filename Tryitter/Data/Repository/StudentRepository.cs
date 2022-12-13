@@ -5,14 +5,20 @@ using Tryitter.Data.Repository.Interfaces;
 using Tryitter.Models;
 using Tryitter.Models.DTOs.PostDTO;
 using Tryitter.Models.DTOs.StudentDTO;
+using Tryitter.Services;
 
 namespace Tryitter.Data
 {
     public class StudentRepository : IStudentRepository
     {
         protected readonly TryitterContext _context;
+        protected readonly ITokenService _tokenService;
 
-        public StudentRepository(TryitterContext context) => _context = context;
+        public StudentRepository(TryitterContext context, ITokenService tokenService)
+        {
+            _context = context;
+            _tokenService = tokenService;
+        }
 
         public IList<StudentDTO> GetAll()
         {
@@ -112,6 +118,26 @@ namespace Tryitter.Data
                 _context.Students.Remove(studentFound);
                 _context.SaveChanges();
             }
+        }
+
+        public string Login(StudentDTOLogin student)
+        {
+            var studentFound = _context.Students.AsNoTracking().FirstOrDefault(s => s.Email == student.Email);
+
+            if (studentFound.PasswordHash != student.Password)
+            {
+                return null;
+            }
+
+            var studentLogin = new StudentDTOLogin
+            {
+                Email = studentFound.Email,
+                Password = studentFound.PasswordHash,
+            };
+
+            var token = _tokenService.GerarToken(Configuration.JwtKey, studentLogin);
+
+            return token;
         }
     }
 }

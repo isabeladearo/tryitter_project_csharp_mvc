@@ -12,6 +12,7 @@ namespace Tryitter.Data.Repository.Interfaces
         StudentDTOName Create(StudentDTOCreate student);
         StudentDTOName Update(StudentDTOUpdate student, Guid id);
         void Remove(Guid id);
+        string Login(StudentDTOLogin student);
     }
 }
 
