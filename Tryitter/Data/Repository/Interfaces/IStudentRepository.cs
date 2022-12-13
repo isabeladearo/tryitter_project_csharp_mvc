@@ -9,10 +9,8 @@ namespace Tryitter.Data.Repository.Interfaces
     {
         IList<StudentDTO> GetAll();
         StudentDTO GetById(Guid id);
-        StudentDTOName Create(StudentDTOCreate student);
         StudentDTOName Update(StudentDTOUpdate student, Guid id);
         void Remove(Guid id);
-        string Login(StudentDTOLogin student);
     }
 }
 

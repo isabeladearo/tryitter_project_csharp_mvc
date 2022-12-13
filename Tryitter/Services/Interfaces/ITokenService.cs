@@ -6,6 +6,6 @@ namespace Tryitter.Services
 {
     public interface ITokenService
     {
-        string GerarToken(string key, StudentDTOLogin studentLogin);
+        string GenerateToken(Student student);
     }
 }

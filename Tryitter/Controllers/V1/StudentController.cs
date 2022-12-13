@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Tryitter.Models;
 using Tryitter.Data.Repository.Interfaces;
 using Tryitter.Models.DTOs.StudentDTO;
+using Microsoft.AspNetCore.Authorization;
+using Tryitter.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Tryitter.Controllers.Students.V1
 {
@@ -31,13 +35,6 @@ namespace Tryitter.Controllers.Students.V1
             return Ok(student);
         }
 
-        [HttpPost]
-        public IActionResult Create([FromBody] StudentDTOCreate student)
-        {
-            var studentCreated = _repository.Create(student);
-            return Created($"api/v1/students/{studentCreated.StudentId}", studentCreated);
-        }
-
         [HttpPut("{id}")]
         public IActionResult Update([FromBody] StudentDTOUpdate student, [FromRoute] string id)
         {
@@ -50,19 +47,6 @@ namespace Tryitter.Controllers.Students.V1
         {
             _repository.Remove(new Guid(id));
             return Ok(new { message = "Student removed with success." });
-        }
-
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] StudentDTOLogin student)
-        {
-            var token = _repository.Login(student);
-
-            if (token == null)
-            {
-                return BadRequest("Email ou senha inválidos");
-            }
-
-            return Ok(new { message = token });
         }
     }
 }

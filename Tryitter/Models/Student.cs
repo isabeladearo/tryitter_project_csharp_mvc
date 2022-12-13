@@ -16,7 +16,7 @@ namespace Tryitter.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string PasswordHash { get; set; }
+        public string Password { get; set; }
         public Module Module { get; set; }
         public bool Status { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

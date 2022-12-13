@@ -16,6 +16,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,7 @@
     <None Remove="Controllers\V1\" />
     <None Remove="Microsoft.IdentityModel" />
     <None Remove="SecureIdentity" />
+    <None Remove="Microsoft.AspNetCore.Authentication" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

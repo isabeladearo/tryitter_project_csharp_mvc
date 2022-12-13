@@ -5,35 +5,35 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Tryitter.Models;
 using Microsoft.Extensions.Configuration;
-using Tryitter.Models.DTOs.StudentDTO;
 
 namespace Tryitter.Services
 {
     public class TokenService : ITokenService
     {
-        public string GerarToken(string key, StudentDTOLogin studentLogin)
+        private readonly IConfiguration _configuration;
+
+        public TokenService(IConfiguration configurarion) => _configuration = configurarion;
+
+        public string GenerateToken(Student student)
         {
-            var claims = new List<Claim>
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("JwtKey"));
+
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                new(ClaimTypes.Name, studentLogin.Email),
-                new Claim(ClaimTypes.NameIdentifier,Guid.NewGuid().ToString()),
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new (ClaimTypes.Email, student.Email),
+                    new (ClaimTypes.Role, student.Email),
+                }),
+                Expires = DateTime.UtcNow.AddHours(8),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(10),
-                signingCredentials: credentials
-            );
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var stringToken = tokenHandler.WriteToken(token);
-
-            return stringToken;
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

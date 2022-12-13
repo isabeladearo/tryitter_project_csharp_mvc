@@ -6,19 +6,15 @@ using Tryitter.Models;
 using Tryitter.Models.DTOs.PostDTO;
 using Tryitter.Models.DTOs.StudentDTO;
 using Tryitter.Services;
+using System.Security.Claims;
 
 namespace Tryitter.Data
 {
     public class StudentRepository : IStudentRepository
     {
-        protected readonly TryitterContext _context;
-        protected readonly ITokenService _tokenService;
+        private readonly TryitterContext _context;
 
-        public StudentRepository(TryitterContext context, ITokenService tokenService)
-        {
-            _context = context;
-            _tokenService = tokenService;
-        }
+        public StudentRepository(TryitterContext context) => _context = context;
 
         public IList<StudentDTO> GetAll()
         {
@@ -72,24 +68,6 @@ namespace Tryitter.Data
             return studentFound;
         }
 
-        public StudentDTOName Create(StudentDTOCreate student)
-        {
-            var studentInstance = new Student
-            {
-                Id = new Guid(),
-                Name = student.Name,
-                Email = student.Email,
-                PasswordHash = student.Password,
-                Module = student.Module,
-                Status = true,
-            };
-
-            _context.Students.Add(studentInstance);
-            _context.SaveChanges();
-
-            return new StudentDTOName { StudentId = studentInstance.Id, Name = studentInstance.Name };
-        }
-
         public StudentDTOName Update(StudentDTOUpdate student, Guid id)
         {
             var studentFound = _context.Students.FirstOrDefault(s => s.Id == id);
@@ -98,7 +76,7 @@ namespace Tryitter.Data
             {
                 studentFound.Name = student.Name;
                 studentFound.Email = student.Email;
-                studentFound.PasswordHash = student.Password;
+                studentFound.Password = student.Password;
                 studentFound.Module = student.Module;
                 studentFound.Status = student.Status;
 
@@ -118,26 +96,6 @@ namespace Tryitter.Data
                 _context.Students.Remove(studentFound);
                 _context.SaveChanges();
             }
-        }
-
-        public string Login(StudentDTOLogin student)
-        {
-            var studentFound = _context.Students.AsNoTracking().FirstOrDefault(s => s.Email == student.Email);
-
-            if (studentFound.PasswordHash != student.Password)
-            {
-                return null;
-            }
-
-            var studentLogin = new StudentDTOLogin
-            {
-                Email = studentFound.Email,
-                Password = studentFound.PasswordHash,
-            };
-
-            var token = _tokenService.GerarToken(Configuration.JwtKey, studentLogin);
-
-            return token;
         }
     }
 }

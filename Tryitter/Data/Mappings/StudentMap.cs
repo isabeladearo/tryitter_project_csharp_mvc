@@ -19,7 +19,7 @@ namespace Tryitter.Data.Mappings
 
             builder.Property(s => s.Email).HasMaxLength(160);
 
-            builder.Property(s => s.PasswordHash).HasMaxLength(255);
+            builder.Property(s => s.Password).HasMaxLength(255);
 
             builder.Property(s => s.Module);
 
