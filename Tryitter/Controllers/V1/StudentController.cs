@@ -15,6 +15,7 @@ namespace Tryitter.Controllers.Students.V1
     [ApiVersion("1.0")]
     [Route("api/v{v:apiVersion}/students")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class StudentController : ControllerBase
     {
         private readonly IStudentRepository _repository;

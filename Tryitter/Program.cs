@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,7 +22,14 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigureServices(builder);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApiVersioning(options =>
 {
@@ -70,19 +78,19 @@ builder.Services.AddSwaggerGen(options =>
         Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
     });
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
- {
-     {
-           new OpenApiSecurityScheme
-             {
-                 Reference = new OpenApiReference
+    {
+         {
+               new OpenApiSecurityScheme
                  {
-                     Type = ReferenceType.SecurityScheme,
-                     Id = "Bearer"
-                 }
-             },
-             new string[] {}
-     }
- });
+                     Reference = new OpenApiReference
+                     {
+                         Type = ReferenceType.SecurityScheme,
+                         Id = "Bearer"
+                     }
+                 },
+                 new string[] {}
+         }
+    });
 });
 
 var app = builder.Build();

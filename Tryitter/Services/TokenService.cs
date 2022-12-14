@@ -12,7 +12,7 @@ namespace Tryitter.Services
     {
         private readonly IConfiguration _configuration;
 
-        public TokenService(IConfiguration configurarion) => _configuration = configurarion;
+        public TokenService(IConfiguration configuration) => _configuration = configuration;
 
         public string GenerateToken(Student student)
         {
@@ -22,14 +22,14 @@ namespace Tryitter.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
-                {
+                 {
+                    new ("StudentId", student.Id.ToString()),
                     new (ClaimTypes.Email, student.Email),
-                    new (ClaimTypes.Role, student.Email),
-                }),
+                 }),
                 Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                     new SymmetricSecurityKey(key),
+                     SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Tryitter.Data;
 using Tryitter.Data.Repository.Interfaces;
 using Tryitter.Models;
 using Tryitter.Models.DTOs.StudentDTO;
@@ -8,7 +11,7 @@ using Tryitter.Models.DTOs.StudentDTO;
 namespace Tryitter.Controllers.V1
 {
     [ApiVersion("1.0")]
-    [Route("api/v{v:apiVersion}/account")]
+    [Route("api/v{v:apiVersion}/accounts")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -32,12 +35,20 @@ namespace Tryitter.Controllers.V1
         [HttpPost]
         public IActionResult CreateAccount([FromBody] StudentDTOCreate student)
         {
-            var studentCreated = _repository.CreateAccount(student);
-            return Created($"api/v1/students/{studentCreated.StudentId}", studentCreated);
+            try
+            {
+                var studentCreated = _repository.CreateAccount(student);
+                return Created($"api/v1/students/{studentCreated.StudentId}", studentCreated);
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest("Email já cadastrado");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
-
-        [HttpGet]
-        public IActionResult GetStudent() => Ok();
     }
 }
 

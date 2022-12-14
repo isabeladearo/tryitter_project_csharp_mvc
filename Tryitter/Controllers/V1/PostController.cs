@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tryitter.Data.Repository.Interfaces;
 using Tryitter.Models.DTOs.PostDTO;
@@ -11,6 +13,7 @@ namespace Tryitter.Controllers.Students.V1
     [ApiVersion("1.0")]
     [ApiController]
     [Route("api/v{v:apiVersion}/posts")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _repository;
