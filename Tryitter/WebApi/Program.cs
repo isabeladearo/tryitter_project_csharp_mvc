@@ -124,4 +124,6 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<IStudentRepository, StudentRepository>();
     builder.Services.AddScoped<IPostRepository, PostRepository>();
     builder.Services.AddTransient<ITokenService, TokenService>();
+    builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    builder.Services.AddScoped<AuthenticateUserService>();
 }

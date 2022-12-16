@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Data.Repository.Interfaces;
 using WebApi.Models.DTOs.PostDTO;
+using WebApi.Services;
+using WebApi.Validators;
+using WebApi.Validators.Post;
 
 namespace WebApi.Controllers.Students.V1
 {
@@ -26,8 +29,8 @@ namespace WebApi.Controllers.Students.V1
         [HttpGet("{id}")]
         public IActionResult GetById([FromRoute] string id)
         {
-            var post = _repository.GetById(new Guid(id));
-            return Ok(post);
+            var postById = _repository.GetById(id);
+            return Ok(postById);
         }
 
         [HttpGet("last")]
@@ -40,6 +43,14 @@ namespace WebApi.Controllers.Students.V1
         [HttpPost]
         public IActionResult Create([FromBody] PostDTOCreate post)
         {
+            PostDTOCreateValidator _validator = new();
+            var result = _validator.Validate(post);
+
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
             var postCreated = _repository.Create(post);
             return Created($"api/v1/posts/{postCreated.PostId}", postCreated);
         }
@@ -47,6 +58,14 @@ namespace WebApi.Controllers.Students.V1
         [HttpPut("{id}")]
         public IActionResult Update([FromBody] PostDTOUpdate post, [FromRoute] string id)
         {
+            PostDTOUpdateValidator _validator = new();
+            var result = _validator.Validate(post);
+
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
             var postUpdated = _repository.Update(post, new Guid(id));
             return Ok(postUpdated);
         }

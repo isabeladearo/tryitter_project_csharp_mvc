@@ -31,9 +31,9 @@ namespace WebApi.Data
             return posts;
         }
 
-        public PostDTO GetById(Guid id)
+        public PostDTO GetById(string id)
         {
-            var post = _context
+            var postFound = _context
                 .Posts
                 .AsNoTracking()
                 .Select(p => new PostDTO
@@ -45,9 +45,9 @@ namespace WebApi.Data
                     LastUpdateDate = p.LastUpdateDate,
                     StudentId = p.StudentId,
                 })
-                .FirstOrDefault(p => p.PostId == id);
+                .FirstOrDefault(p => p.PostId == new Guid(id));
 
-            return post;
+            return postFound;
         }
 
         public PostDTO GetLastPost()
@@ -80,7 +80,7 @@ namespace WebApi.Data
                 Image = post.Image,
                 CreateDate = DateTime.Now,
                 LastUpdateDate = DateTime.Now,
-                StudentId = post.StudentId,
+                StudentId = new Guid(post.StudentId),
             };
 
             _context.Posts.Add(postInstance);

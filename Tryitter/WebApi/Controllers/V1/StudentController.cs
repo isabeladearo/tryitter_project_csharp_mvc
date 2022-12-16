@@ -3,6 +3,7 @@ using WebApi.Data.Repository.Interfaces;
 using WebApi.Models.DTOs.StudentDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using WebApi.Validators.Student;
 
 namespace WebApi.Controllers.Students.V1
 {
@@ -40,6 +41,14 @@ namespace WebApi.Controllers.Students.V1
         [HttpPut("{id}")]
         public IActionResult Update([FromBody] StudentDTOUpdate student, [FromRoute] string id)
         {
+            StudentDTOUpdateValidator _validator = new();
+            var result = _validator.Validate(student);
+
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
             var studentUpdated = _repository.Update(student, new Guid(id));
             return Ok(studentUpdated);
         }

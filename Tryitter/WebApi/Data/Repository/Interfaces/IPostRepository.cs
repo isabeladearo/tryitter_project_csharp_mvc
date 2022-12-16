@@ -5,7 +5,7 @@ namespace WebApi.Data.Repository.Interfaces
     public interface IPostRepository
     {
         IList<PostDTO> GetAll();
-        PostDTO GetById(Guid id);
+        PostDTO GetById(string id);
         PostDTO GetLastPost();
         PostDTOStudent Create(PostDTOCreate post);
         PostDTOStudent Update(PostDTOUpdate post, Guid id);

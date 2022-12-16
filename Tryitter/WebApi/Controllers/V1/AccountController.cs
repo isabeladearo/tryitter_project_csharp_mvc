@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApi.Data.Repository.Interfaces;
 using WebApi.Models.DTOs.StudentDTO;
 using WebApi.Validators;
+using WebApi.Validators.Student;
 
 namespace WebApi.Controllers.V1
 {
@@ -18,8 +19,8 @@ namespace WebApi.Controllers.V1
         [HttpPost("login")]
         public IActionResult Login([FromBody] StudentDTOLogin student)
         {
-            StudentDTOLoginValidator validator = new();
-            var result = validator.Validate(student);
+            StudentDTOLoginValidator _validator = new();
+            var result = _validator.Validate(student);
 
             if (!result.IsValid)
             {
@@ -41,6 +42,14 @@ namespace WebApi.Controllers.V1
         {
             try
             {
+                StudentDTOCreateValidator _validator = new();
+                var result = _validator.Validate(student);
+
+                if (!result.IsValid)
+                {
+                    return BadRequest(result.Errors);
+                }
+
                 var studentCreated = _repository.CreateAccount(student);
                 return Created($"api/v1/students/{studentCreated.StudentId}", studentCreated);
             }

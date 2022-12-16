@@ -37,6 +37,7 @@
     <None Remove="Migrations\" />
     <None Remove="Migrations\20221211190753_CreateDatabase.Designer" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Microsoft.AspNetCore.Http.Abstractions" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
